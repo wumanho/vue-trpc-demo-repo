@@ -1,15 +1,14 @@
-import type { AppRouter } from '@trpc-vue-demo/server'
-import { httpLink, createTRPCProxyClient, httpBatchLink } from '@trpc/client'
+import { httpLink, createTRPCProxyClient } from '@trpc/client'
+import { AnyRouter } from '@trpc/server'
 
-type URL = Parameters<typeof httpLink>[0]['url']
-
-export function useTRPC(url: URL) {
-  const trpc = createTRPCProxyClient<AppRouter>({
-    links: [
-      httpBatchLink({
-        url: url
-      })
-    ]
+export function useTRPC<Router extends AnyRouter>(
+  url: string,
+  transformer?: Parameters<typeof createTRPCProxyClient>[0]['transformer']
+) {
+  const httpLinkConfig = httpLink({ url: url })
+  const trpc = createTRPCProxyClient<Router>({
+    transformer,
+    links: [httpLinkConfig]
   })
   return { trpc }
 }

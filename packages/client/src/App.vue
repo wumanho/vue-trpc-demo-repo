@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import type { User } from '@trpc-vue-demo/server/types'
 import { useTRPC } from './hooks/useTRPC'
-const { trpc } = useTRPC('/trpc')
+import { AppRouter } from '@trpc-vue-demo/server'
+const { trpc } = useTRPC<AppRouter>('/trpc')
 
 const addUser = async () => {
   await trpc.userCreate.mutate({
