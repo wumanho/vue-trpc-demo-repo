@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-import type { AppTRPC } from './main'
+import { ref } from 'vue'
 import type { User } from '@trpc-vue-demo/server/types'
-const trpc = inject<AppTRPC>('trpc') as AppTRPC
+import { useTRPC } from './hooks/useTRPC'
+const { trpc } = useTRPC('/trpc')
 
 const addUser = async () => {
   await trpc.userCreate.mutate({
